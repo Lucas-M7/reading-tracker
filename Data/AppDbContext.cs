@@ -30,6 +30,7 @@ public class AppDbContext : DbContext
                 .HasMaxLength(100);
 
             book.Property(b => b.Gender)
+                .HasConversion<string>()
                 .IsRequired()
                 .HasMaxLength(50);
 
@@ -55,6 +56,10 @@ public class AppDbContext : DbContext
                 .IsRequired();
 
             reading.Property(r => r.EndPage)
+                .IsRequired();
+
+            reading.Property(r => r.Status)
+                .HasConversion<string>()
                 .IsRequired();
 
             reading.Property(r => r.BookId)

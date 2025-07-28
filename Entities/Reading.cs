@@ -1,3 +1,5 @@
+using ReadingTracker.API.Enums;
+
 namespace ReadingTracker.API.Entities;
 
 public class Reading
@@ -6,6 +8,7 @@ public class Reading
     public DateTime Date { get; set; } = DateTime.UtcNow;
     public int StartPage { get; set; }
     public int EndPage { get; set; }
+    public ReadingStatus Status { get; set; } = ReadingStatus.NotStarted;
     public string? Notes { get; set; }
 
     public Guid BookId { get; set; } // FK - Qual livro tá sendo ou foi lido

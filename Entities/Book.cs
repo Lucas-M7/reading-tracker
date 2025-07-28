@@ -1,3 +1,5 @@
+using ReadingTracker.API.Enums;
+
 namespace ReadingTracker.API.Entities;
 
 public class Book
@@ -5,7 +7,7 @@ public class Book
     public Guid BookId { get; set; }
     public string Title { get; set; } = string.Empty;
     public string Author { get; set; } = string.Empty;
-    public string Gender { get; set; } = string.Empty;
+    public Gender Gender { get; set; } = Gender.Other;
     public int TotalPages { get; set; }
     public DateTime RegistrationDate { get; set; }
 
