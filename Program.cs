@@ -7,6 +7,8 @@ builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddAutoMapper(typeof(Program));
+
 var sqlServerConnection = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(sqlServerConnection));
