@@ -4,7 +4,7 @@ namespace ReadingTracker.API.Dtos.BookDTO;
 
 public class BookReadDTO
 {
-    public Guid BookId { get; set; }
+    public int BookId { get; set; }
     public string Title { get; set; } = string.Empty;
     public string Author { get; set; } = string.Empty;
     public Gender Gender { get; set; } = Gender.Other;
