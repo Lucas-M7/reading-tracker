@@ -8,5 +8,5 @@ public class BookCreateDTO
     public string Author { get; set; } = string.Empty;
     public Gender Gender { get; set; } = Gender.Other;
     public int TotalPages { get; set; }
-    public int UserId { get; set; }
+    public Guid UserId { get; set; }
 }

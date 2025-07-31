@@ -2,9 +2,9 @@ namespace ReadingTracker.API.Dtos.ReadingDTO;
 
 public class ReadingReadDTO
 {
-    public int ReadingId { get; set; }
+    public Guid ReadingId { get; set; }
     public int StartPage { get; set; }
     public int EndPage { get; set; }
-    public int BookId { get; set; }
-    public int UserId { get; set; }
+    public Guid BookId { get; set; }
+    public Guid UserId { get; set; }
 }
