@@ -24,11 +24,9 @@ namespace ReadingTracker.API.Migrations
 
             modelBuilder.Entity("ReadingTracker.API.Entities.Book", b =>
                 {
-                    b.Property<int>("BookId")
+                    b.Property<Guid>("BookId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BookId"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Author")
                         .IsRequired()
@@ -51,8 +49,8 @@ namespace ReadingTracker.API.Migrations
                     b.Property<int>("TotalPages")
                         .HasColumnType("int");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("BookId");
 
@@ -63,14 +61,12 @@ namespace ReadingTracker.API.Migrations
 
             modelBuilder.Entity("ReadingTracker.API.Entities.Reading", b =>
                 {
-                    b.Property<int>("ReadingId")
+                    b.Property<Guid>("ReadingId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("uniqueidentifier");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ReadingId"));
-
-                    b.Property<int>("BookId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("BookId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
@@ -88,8 +84,8 @@ namespace ReadingTracker.API.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("ReadingId");
 
@@ -102,11 +98,9 @@ namespace ReadingTracker.API.Migrations
 
             modelBuilder.Entity("ReadingTracker.API.Entities.User", b =>
                 {
-                    b.Property<int>("UserId")
+                    b.Property<Guid>("UserId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserId"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Email")
                         .IsRequired()
