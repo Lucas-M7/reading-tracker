@@ -1,12 +1,16 @@
+using ReadingTracker.API.Entities.Identity;
+
 namespace ReadingTracker.API.Entities;
 
 public class User
 {
     public Guid UserId { get; set; }
-    public string Name { get; set; } = string.Empty!;
-    public string Email { get; set; } = string.Empty!;
-    public string PasswordHashed { get; set; } = string.Empty!;
-    public DateTime RegistrationDate { get; set; }
+
+    public string ApplicationUserId { get; set; } = default!;
+    public ApplicationUser ApplicationUser { get; set; } = default!;
+
+    public string DisplayName { get; set; } = default!;
+    public DateTime RegistrationDate { get; set; } = DateTime.UtcNow;
 
     // Navegação
     public ICollection<Book> Books { get; set; } = new List<Book>(); // 1 User -> N Books
