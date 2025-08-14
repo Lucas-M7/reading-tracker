@@ -1,3 +1,5 @@
+using ReadingTracker.API.Enums;
+
 namespace ReadingTracker.API.Dtos.ReadingDTO;
 
 public class ReadingReadDTO
@@ -5,6 +7,7 @@ public class ReadingReadDTO
     public Guid ReadingId { get; set; }
     public int StartPage { get; set; }
     public int EndPage { get; set; }
+    public ReadingStatus ReadingStatus { get; set; }
     public Guid BookId { get; set; }
     public Guid UserId { get; set; }
 }
