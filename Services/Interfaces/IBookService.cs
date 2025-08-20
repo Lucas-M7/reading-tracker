@@ -6,13 +6,11 @@ namespace ReadingTracker.API.Services.Interfaces;
 
 public interface IBookService
 {
-    Task<Book> CreateBookAsync(BookCreateDTO bookDto);
-    Task<Book?> GetBookByIdAsync(Guid id);
+    Task<BookReadDTO> CreateBookAsync(BookCreateDTO bookDto);
+    Task<BookReadDTO?> GetBookByIdAsync(Guid id);
     Task<IEnumerable<BookReadDTO>> GetAllBooksAsync();
-    Task<Book?> UpdateBookAsync(Guid id, BookUpdateDTO bookDto);
+    Task<BookReadDTO?> UpdateBookAsync(Guid id, BookUpdateDTO bookDto);
     Task<bool> DeleteBookAsync(Guid id);
 
-    Task<IEnumerable<BookReadDTO>> SearchBooksAsync(string title, string? author, Gender? gender, int? totalPages);
-
-    Task<bool> MarkAsReadAsync(Guid id);
+    Task<IEnumerable<BookReadDTO>> SearchBooksAsync(string title, string? author, Gender? gender, int? totalPages, int pageNumber, int pageSize);
 }
