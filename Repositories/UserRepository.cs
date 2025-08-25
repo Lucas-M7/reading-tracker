@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using ReadingTracker.API.Data;
 using ReadingTracker.API.Entities;
+using ReadingTracker.API.Entities.Identity;
 using ReadingTracker.API.Repositories.Interfaces;
 
 namespace ReadingTracker.API.Repositories;
@@ -14,7 +15,7 @@ public class UserRepository : IUserRepository
         _context = context;
     }
 
-    public async Task<User> CreateAsync(User user)
+    public async Task<ApplicationUser> CreateAsync(ApplicationUser user)
     {
         _context.Users.Add(user);
         await _context.SaveChangesAsync();
@@ -31,21 +32,21 @@ public class UserRepository : IUserRepository
         return true;
     }
 
-    public async Task<List<User>> GetAllAsync()
+    public async Task<List<ApplicationUser>> GetAllAsync()
     {
         return await _context.Users
             .Include(u => u.Readings)
             .ToListAsync();
     }
 
-    public async Task<User?> GetByIdAsync(Guid id)
+    public async Task<ApplicationUser?> GetByIdAsync(Guid id)
     {
         return await _context.Users
             .Include(u => u.Readings)
-            .FirstOrDefaultAsync(u => u.UserId == id);
+            .FirstOrDefaultAsync(u => u.Id == id);
     }
 
-    public async Task<User> UpdateAsync(User user)
+    public async Task<ApplicationUser> UpdateAsync(ApplicationUser user)
     {
         _context.Users.Update(user);
         await _context.SaveChangesAsync();

@@ -1,12 +1,13 @@
 using ReadingTracker.API.Entities;
+using ReadingTracker.API.Entities.Identity;
 
 namespace ReadingTracker.API.Repositories.Interfaces;
 
 public interface IUserRepository
 {
-    Task<List<User>> GetAllAsync();
-    Task<User?> GetByIdAsync(Guid id);
-    Task<User> CreateAsync(User user);
-    Task<User> UpdateAsync(User user);
+    Task<List<ApplicationUser>> GetAllAsync();
+    Task<ApplicationUser?> GetByIdAsync(Guid id);
+    Task<ApplicationUser> CreateAsync(ApplicationUser user);
+    Task<ApplicationUser> UpdateAsync(ApplicationUser user);
     Task<bool> DeleteAsync(Guid id);
 }
