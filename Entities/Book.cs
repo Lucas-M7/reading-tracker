@@ -1,3 +1,4 @@
+using ReadingTracker.API.Entities.Identity;
 using ReadingTracker.API.Enums;
 
 namespace ReadingTracker.API.Entities;
@@ -13,7 +14,7 @@ public class Book
 
     // Relacionamento
     public Guid UserId { get; set; } // FK para o leitor do livro
-    public User User { get; set; } = default!; // Navegação para o usuário
+    public ApplicationUser User { get; set; } = default!; // Navegação para o usuário
 
     // Leituras feitas a partir deste livro
     public ICollection<Reading> Readings { get; set; } = new List<Reading>();
