@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using ReadingTracker.API.Entities;
@@ -5,11 +6,10 @@ using ReadingTracker.API.Entities.Identity;
 
 namespace ReadingTracker.API.Data;
 
-public class AppDbContext : IdentityDbContext<ApplicationUser>
+public class AppDbContext : IdentityDbContext<ApplicationUser, IdentityRole<Guid>, Guid>
 {
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
-    new public DbSet<User> Users { get; set; }
     public DbSet<Book> Books { get; set; } = default!;
     public DbSet<Reading> Readings { get; set; } = default!;
 
@@ -82,10 +82,5 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
             .WithMany(u => u.Readings)
             .HasForeignKey(r => r.UserId)
             .OnDelete(DeleteBehavior.Restrict);
-
-        modelBuilder.Entity<User>()
-            .HasOne(u => u.ApplicationUser)
-            .WithOne()
-            .HasForeignKey<User>(u => u.ApplicationUserId);
     }
 }
