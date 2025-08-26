@@ -1,6 +1,6 @@
 namespace ReadingTracker.API.Enums;
 
-public enum Gender
+public enum Genre
 {
     Romance,
     Terror,

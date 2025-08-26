@@ -31,7 +31,7 @@ public class AppDbContext : IdentityDbContext<ApplicationUser, IdentityRole<Guid
                 .IsRequired()
                 .HasMaxLength(100);
 
-            book.Property(b => b.Gender)
+            book.Property(b => b.Genre)
                 .HasConversion<string>()
                 .IsRequired()
                 .HasMaxLength(50);

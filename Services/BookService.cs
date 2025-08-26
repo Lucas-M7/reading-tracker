@@ -109,7 +109,7 @@ public class BookService : IBookService
         return ok;
     }
 
-    public async Task<IEnumerable<BookReadDTO>> SearchBooksAsync(string title, string? author, Gender? gender, int? totalPages, int pageNumber, int pageSize)
+    public async Task<IEnumerable<BookReadDTO>> SearchBooksAsync(string title, string? author, Genre? gender, int? totalPages, int pageNumber, int pageSize)
     {
         var userId = _currentUser.GetUserId();
 
