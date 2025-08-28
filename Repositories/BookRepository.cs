@@ -1,7 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using ReadingTracker.API.Data;
 using ReadingTracker.API.Entities;
+using ReadingTracker.API.Enums;
 using ReadingTracker.API.Repositories.Interfaces;
+using ReadingTracker.API.Services.Common;
 
 namespace ReadingTracker.API.Repositories;
 
@@ -20,31 +22,76 @@ public class BookRepository : IBookRepository
         await _context.SaveChangesAsync();
         return book;
     }
+    public async Task UpdateAsync(Book book)
+    {
+        _context.Entry(book).State = EntityState.Modified;
+        await _context.SaveChangesAsync();
+    }
 
-    public async Task<bool> DeleteAsync(Book book)
+    public async Task DeleteAsync(Book book)
     {
         _context.Books.Remove(book);
-        return await _context.SaveChangesAsync() > 0;
+        await _context.SaveChangesAsync();
+    }
+
+    public async Task<Book?> GetByIdAsync(Guid bookId, Guid userId)
+    {
+        return await _context.Books
+            .FirstOrDefaultAsync(b => b.BookId == bookId && b.UserId == userId);
     }
 
     public async Task<IEnumerable<Book>> GetAllByUserIdAsync(Guid userId)
     {
         return await _context.Books
+            .AsNoTracking()
             .Where(b => b.UserId == userId)
             .ToListAsync();
     }
 
-    public async Task<Book> GetByIdAsync(Guid id)
+    public async Task<bool> DoesBookExistAsync(Guid userId, string title, string author)
     {
+        var normalizedTitle = title.Trim().ToLower();
+        var normalizedAuthor = author.Trim().ToLower();
+
         return await _context.Books
-            .Include(b => b.Readings)
-            .FirstOrDefaultAsync(b => b.BookId == id);
+            .AnyAsync(b => b.UserId == userId &&
+                b.Title.ToLower() == normalizedTitle &&
+                b.Author.ToLower() == normalizedAuthor);
     }
 
-    public async Task<Book> UpdateAsync(Book book)
+    public async Task<PagedResult<Book>> SearchAsync(Guid userId, string? title, string? author, Genre? genre, int pageNumber, int pageSize)
     {
-        _context.Books.Update(book);
-        await _context.SaveChangesAsync();
-        return book;
+        var query = _context.Books
+            .AsNoTracking()
+            .Where(b => b.UserId == userId);
+
+        if (!string.IsNullOrWhiteSpace(title))
+        {
+            query = query.Where(b => b.Title.ToLower().Contains(title.Trim().ToLower()));
+        }
+
+        if (!string.IsNullOrWhiteSpace(author))
+        {
+            query = query.Where(b => b.Author.ToLower().Contains(author.Trim().ToLower()));
+        }
+
+        if (genre.HasValue)
+        {
+            query = query.Where(b => b.Genre == genre.Value);
+        }
+
+        var totalCount = await query.CountAsync();
+
+        var items = await query
+            .OrderBy(b => b.Title)
+            .Skip((pageNumber = 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
+
+        return new PagedResult<Book>
+        {
+            Items = items,
+            TotalCount = totalCount
+        };
     }
 }
