@@ -5,17 +5,35 @@ namespace ReadingTracker.API.Entities;
 
 public class Book
 {
-    public Guid BookId { get; set; }
-    public string Title { get; set; } = string.Empty;
-    public string Author { get; set; } = string.Empty;
-    public Genre Genre { get; set; } = Genre.Other;
+    public Guid BookId { get; init; }
+    public DateTime RegistrationDate { get; init; }
+
+    public string Title { get; set; }
+    public string Author { get; set; }
+    public Genre Genre { get; set; }
     public int TotalPages { get; set; }
-    public DateTime RegistrationDate { get; set; }
 
-    // Relacionamento
-    public Guid UserId { get; set; } // FK para o leitor do livro
-    public ApplicationUser User { get; set; } = default!; // Navegação para o usuário
 
-    // Leituras feitas a partir deste livro
-    public ICollection<Reading> Readings { get; set; } = new List<Reading>();
+    public Guid UserId { get; init; }
+    public ApplicationUser User { get; init; } = default!;
+
+    public ICollection<Reading> Readings { get; private set; } = new List<Reading>();
+
+    private Book() { }
+
+    public Book(string title, string author, Genre genre, int totalPages, Guid userId)
+    {
+        BookId = Guid.NewGuid();
+        RegistrationDate = DateTime.UtcNow;
+
+        Title = title;
+        Author = author;
+        Genre = genre;
+        TotalPages = totalPages;
+        UserId = userId;
+    }
+    public void AddReading(Reading newReading)
+    {
+        Readings.Add(newReading);
+    }
 }
