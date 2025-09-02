@@ -6,7 +6,7 @@ using ReadingTracker.API.Repositories.Interfaces;
 
 namespace ReadingTracker.API.Repositories;
 
-public class UserRepository : IUserRepository
+public class UserRepository
 {
     private readonly AppDbContext _context;
 
