@@ -36,7 +36,7 @@ public class UserService : IUserService
         return "JWT AQUI";
     }
 
-    public async Task<ApplicationUser> RegisterAsync(UserCreateDTO createDTO)
+    public async Task<ApplicationUser> RegisterAsync(UserRegisterDTO createDTO)
     {
         var user = new ApplicationUser
         {

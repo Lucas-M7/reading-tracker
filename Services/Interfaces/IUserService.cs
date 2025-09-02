@@ -5,7 +5,7 @@ namespace ReadingTracker.API.Services.Interfaces;
 
 public interface IUserService
 {
-    Task<ApplicationUser> RegisterAsync(UserCreateDTO createDTO);
+    Task<ApplicationUser> RegisterAsync(UserRegisterDTO createDTO);
     Task<bool> UpdateAsync(Guid id, UserUpdateDTO updateDTO);
     Task<bool> DeleteAsync(Guid id);
     Task<string> LoginAsync(UserLoginDTO loginDTO);
