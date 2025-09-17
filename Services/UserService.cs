@@ -103,4 +103,39 @@ public class UserService : IUserService
 
         return result.Succeeded;
     }
+
+    public async Task<UserReadDTO?> GetUserByIdAsync(Guid id)
+    {
+        var user = await _userManager.FindByIdAsync(id.ToString());
+
+        if (user == null)
+        {
+            _logger.LogWarning("Usuário com ID {UserId} não encontrado", id);
+            return null;
+        }
+
+        return _mapper.Map<UserReadDTO>(user);
+    }
+
+    public async Task<IdentityResult> ChangePasswordAsync(Guid id, ChangePasswordDTO passwordDTO)
+    {
+        var user = await _userManager.FindByIdAsync(id.ToString());
+        if (user == null)
+        {
+            return IdentityResult.Failed(new IdentityError { Description = "Usuário não encontrado." });
+        }
+
+        var result = await _userManager.ChangePasswordAsync(user, passwordDTO.OldPassword, passwordDTO.NewPassword);
+
+        if (result.Succeeded)
+        {
+            _logger.LogInformation("Senha alterada com sucesso para o usuário {UserId}.", id);
+        }
+        else
+        {
+            _logger.LogWarning("Falha ao alterar a senha para o usuário {UserId}", id);
+        }
+
+        return result;
+    }
 }
