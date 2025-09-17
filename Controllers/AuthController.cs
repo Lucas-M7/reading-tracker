@@ -37,6 +37,9 @@ public class AuthController : ControllerBase
         }
     }
 
+    [HttpPost("login")]
+    [ProducesResponseType(typeof(UserReadDTO), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<IActionResult> Login([FromBody] UserLoginDTO loginDTO)
     {
         _logger.LogInformation("Tentativa de login para o email: {Email}", loginDTO.Email);
