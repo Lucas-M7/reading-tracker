@@ -12,8 +12,8 @@ using ReadingTracker.API.Data;
 namespace ReadingTracker.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250830003825_InitialCreateWithGuidKeys")]
-    partial class InitialCreateWithGuidKeys
+    [Migration("20250923000919_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -139,7 +139,7 @@ namespace ReadingTracker.API.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<string>("Gender")
+                    b.Property<string>("Genre")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
