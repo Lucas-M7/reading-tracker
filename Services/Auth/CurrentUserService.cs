@@ -1,20 +1,33 @@
 
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
 namespace ReadingTracker.API.Services.Auth;
 
 public class CurrentUserService : ICurrentUserService
 {
-    private readonly IHttpContextAccessor _httpContextAcessor;
+    private readonly IHttpContextAccessor _httpContextAccessor;
     public CurrentUserService(IHttpContextAccessor httpContextAccessor)
     {
-        _httpContextAcessor = httpContextAccessor;
+        _httpContextAccessor = httpContextAccessor;
     }
 
     public Guid GetUserId()
     {
-        var userIdString = _httpContextAcessor.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier);
-        if (string.IsNullOrWhiteSpace(userIdString)) throw new InvalidOperationException("Usuário não autenticado");
-        return Guid.Parse(userIdString);
+
+        var userIdClaim = _httpContextAccessor.HttpContext?.User?.FindFirstValue("sub")
+                          ?? _httpContextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier);
+
+        if (string.IsNullOrEmpty(userIdClaim))
+        {
+            throw new InvalidOperationException("Claim ID do usuário (sub) não encontrada no token.");
+        }
+
+        if (Guid.TryParse(userIdClaim, out var userId))
+        {
+            return userId;
+        }
+
+        throw new InvalidOperationException("A claim de ID do usuário não é um GUID válido.");
     }
 }
