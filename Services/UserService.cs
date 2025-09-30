@@ -44,11 +44,17 @@ public class UserService : IUserService
             throw new InvalidOperationException($"Falha ao registrar usuário: {erros}");
         }
 
-        _logger.LogInformation("Novo usuário registrado: {Email}", user.Email);
+        var createdUser = await _userManager.FindByEmailAsync(registerDTO.Email);
+        if (createdUser == null)
+        {
+            throw new Exception("Falha crítica ao recuperar usuário após o registro.");
+        }
 
-        var userReadDto = _mapper.Map<UserReadDTO>(user);
+        _logger.LogInformation("Novo usuário registrado: {Email}", createdUser.Email);
 
-        userReadDto.Token = _tokenService.GenerateToken(user);
+        var userReadDto = _mapper.Map<UserReadDTO>(createdUser);
+
+        userReadDto.Token = _tokenService.GenerateToken(createdUser, expires: DateTime.UtcNow.AddHours(2));
 
         return userReadDto;
     }
@@ -59,13 +65,16 @@ public class UserService : IUserService
         if (user == null) return null; // usuário não encontrado
 
         var result = await _signInManager.CheckPasswordSignInAsync(user, loginDTO.Password, lockoutOnFailure: false);
+        var expires = DateTime.UtcNow.AddHours(2);
+        var tokenString = _tokenService.GenerateToken(user, expires);
 
         if (!result.Succeeded) return null; // senha incorreta
 
         _logger.LogInformation("Usuário logado com sucesso: {Email}", user.Email);
 
         var userReadDto = _mapper.Map<UserReadDTO>(user);
-        userReadDto.Token = _tokenService.GenerateToken(user);
+        userReadDto.Token = tokenString;
+        userReadDto.ExpiresAt = expires;
 
         return userReadDto;
     }
@@ -106,7 +115,7 @@ public class UserService : IUserService
 
     public async Task<UserReadDTO?> GetUserByIdAsync(Guid id)
     {
-        var user = await _userManager.FindByIdAsync(id.ToString());
+        var user = await _userManager.FindByIdAsync(id.ToString().ToUpper());
 
         if (user == null)
         {

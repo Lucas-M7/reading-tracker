@@ -4,5 +4,5 @@ namespace ReadingTracker.API.Services.Interfaces;
 
 public interface ITokenService
 {
-    string GenerateToken(ApplicationUser user);
+    string GenerateToken(ApplicationUser user, DateTime expires);
 }

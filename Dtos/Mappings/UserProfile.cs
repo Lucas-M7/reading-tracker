@@ -9,7 +9,8 @@ public class UserProfile : Profile
 {
     public UserProfile()
     {
-        CreateMap<ApplicationUser, UserReadDTO>();
+        CreateMap<ApplicationUser, UserReadDTO>()
+            .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.Id));
         CreateMap<UserRegisterDTO, ApplicationUser>();
         CreateMap<UserUpdateDTO, ApplicationUser>();
 
