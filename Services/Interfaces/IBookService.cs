@@ -12,5 +12,5 @@ public interface IBookService
     Task<BookReadDTO?> UpdateBookAsync(Guid bookId, BookUpdateDTO bookDto);
     Task<bool> DeleteBookAsync(Guid bookId);
 
-    Task<PagedResult<BookReadDTO>> SearchBooksAsync(string? title, string? author, Genre? genre, int pageNumber, int pageSize);
+    Task<PagedResult<BookReadDTO>> SearchBooksAsync(string? title, string? author, Genre? genre, int pageSize);
 }

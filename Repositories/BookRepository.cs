@@ -59,7 +59,7 @@ public class BookRepository : IBookRepository
                 b.Author.ToLower() == normalizedAuthor);
     }
 
-    public async Task<PagedResult<Book>> SearchAsync(Guid userId, string? title, string? author, Genre? genre, int pageNumber, int pageSize)
+    public async Task<PagedResult<Book>> SearchAsync(Guid userId, string? title, string? author, Genre? genre, int pageSize)
     {
         var query = _context.Books
             .AsNoTracking()
@@ -84,7 +84,6 @@ public class BookRepository : IBookRepository
 
         var items = await query
             .OrderBy(b => b.Title)
-            .Skip((pageNumber = 1) * pageSize)
             .Take(pageSize)
             .ToListAsync();
 

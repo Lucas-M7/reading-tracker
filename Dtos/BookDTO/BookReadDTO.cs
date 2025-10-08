@@ -16,10 +16,10 @@ public class BookReadDTO
     /// </summary>
     public int PagesRead { get; set; }
 
-    /// <summary>
-    /// Percentual do progresso da leitura (0 a 100).
-    /// </summary>
-    public double Progress { get; set; }
+    // /// <summary>
+    // /// Percentual do progresso da leitura (0 a 100).
+    // /// </summary>
+    // public double Progress { get; set; }
 
     /// <summary>
     /// Indica se o livro já foi completamente lido.

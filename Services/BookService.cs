@@ -90,11 +90,11 @@ public class BookService : IBookService
         return true;
     }
 
-    public async Task<PagedResult<BookReadDTO>> SearchBooksAsync(string? title, string? author, Genre? gender, int pageNumber, int pageSize)
+    public async Task<PagedResult<BookReadDTO>> SearchBooksAsync(string? title, string? author, Genre? gender, int pageSize)
     {
         var userId = _currentUser.GetUserId();
 
-        var pagedBooks = await _bookRepository.SearchAsync(userId, title, author, gender, pageNumber, pageSize);
+        var pagedBooks = await _bookRepository.SearchAsync(userId, title, author, gender, pageSize);
 
         var pagedDto = new PagedResult<BookReadDTO>
         {

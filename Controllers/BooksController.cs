@@ -105,10 +105,10 @@ public class BooksController : ControllerBase
     [HttpGet("search")]
     [ProducesResponseType(typeof(PagedResult<BookReadDTO>), StatusCodes.Status200OK)]
     public async Task<IActionResult> Search([FromQuery] string? title, [FromQuery] string? author,
-        [FromQuery] Genre? genre, [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
+        [FromQuery] Genre? genre, [FromQuery] int pageSize = 10)
     {
         _logger.LogInformation("Executando busca de livros com parâmetros.");
-        var result = await _bookService.SearchBooksAsync(title, author, genre, pageNumber, pageSize);
+        var result = await _bookService.SearchBooksAsync(title, author, genre, pageSize);
         return Ok(result);
     }
 }

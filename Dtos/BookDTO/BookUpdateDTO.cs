@@ -16,4 +16,10 @@ public class BookUpdateDTO
 
     [Range(1, int.MaxValue, ErrorMessage = "O número total de páginas deve ser de no mínimo 1.")]
     public int TotalPages { get; set; }
+
+    [Required(ErrorMessage = "A quantidade de páginas é obrigatória.")]    
+    public int PagesRead { get; set; }
+
+    [Required(ErrorMessage = "Obrigatório informar se o livro já foi terminado ou não.")]
+    public bool IsFinished { get; set; }
 }
