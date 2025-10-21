@@ -11,6 +11,8 @@ public class UserProfile : Profile
     {
         CreateMap<ApplicationUser, UserReadDTO>()
             .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.Id));
+        CreateMap<ApplicationUser, UserRegistrationSuccessDTO>()
+            .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.Id));
         CreateMap<UserRegisterDTO, ApplicationUser>();
         CreateMap<UserUpdateDTO, ApplicationUser>();
 

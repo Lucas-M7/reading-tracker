@@ -18,7 +18,7 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost("register")]
-    [ProducesResponseType(typeof(UserReadDTO), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(UserRegistrationSuccessDTO), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> Register([FromBody] UserRegisterDTO registerDTO)
     {
@@ -26,9 +26,13 @@ public class AuthController : ControllerBase
         {
             _logger.LogInformation("Tentativa de registro para o email: {Email}", registerDTO.Email);
 
-            var userDto = await _userService.RegisterAsync(registerDTO);
+            var newUser = await _userService.RegisterAsync(registerDTO);
 
-            return Ok(userDto);
+            return CreatedAtAction(
+                "GetMyProfile",
+                "Users",
+                new { },
+                newUser);
         }
         catch (Exception ex) when (ex is ArgumentException || ex is InvalidOperationException)
         {

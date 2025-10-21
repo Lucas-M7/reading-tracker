@@ -24,7 +24,7 @@ public class UserService : IUserService
         _logger = logger;
     }
 
-    public async Task<UserReadDTO> RegisterAsync(UserRegisterDTO registerDTO)
+    public async Task<UserRegistrationSuccessDTO> RegisterAsync(UserRegisterDTO registerDTO)
     {
         var existingUser = await _userManager.FindByEmailAsync(registerDTO.Email);
         if (existingUser != null)
@@ -52,11 +52,9 @@ public class UserService : IUserService
 
         _logger.LogInformation("Novo usuário registrado: {Email}", createdUser.Email);
 
-        var userReadDto = _mapper.Map<UserReadDTO>(createdUser);
+        var responseDto = _mapper.Map<UserRegistrationSuccessDTO>(createdUser);
 
-        userReadDto.Token = _tokenService.GenerateToken(createdUser, expires: DateTime.UtcNow.AddHours(2));
-
-        return userReadDto;
+        return responseDto;
     }
 
     public async Task<UserReadDTO?> LoginAsync(UserLoginDTO loginDTO)
